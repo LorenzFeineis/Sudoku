@@ -1,6 +1,6 @@
 ### Sudoku
-import pprint
 from pprint import *
+from copy import *
 
 # Z = [[6,2,"_","_",9,"_",7,"_",5],[4,"_","_","_",8,"_",6,"_","_"],["_",9,1,"_",5,"_",4,"_","_"],["_","_",3,"_","_",5,2,7,"_"],["_",8,6,3,"_",2,"_","_","_"],["_","_",7,"_",1,"_","_",8,"_"],[8,7,"_","_","_","_","_","_",1],["_","_","_",9,"_",7,"_","_",2],[3,5,2,"_","_","_","_","_","_"]]
 
@@ -234,12 +234,11 @@ if option=="1":
                     print("Gratulation! Du hast das Sudoku richtig gelöst.")
                     helf = 234    #Die Hilfefunktion wird nicht mehr benötigt.
         if hilfe=="Help":
-            Z3 = Z.copy()
-            loeserhelp(Z3)
-            if Z3==Z:
+            Z3 = deepcopy(Z)
+            if Z3 == loeserhelp(Z):
                 print("Dieses Sudoku ist zu schwer für mich.")
             else:
-                ausgabe(Z3)
+                ausgabe(loeserhelp(Z))
 
 if option=="2":
     ausgabe(loeser(sudokuliste(eingabe)))

@@ -27,11 +27,12 @@ def loeserhelp(Z):  # Gibt den nächsten Eintrag an, den der Loeser einfügt.
     KD = bloecke(Z)
     S = spalten(Z)
     ZC = Z.copy()
-    stopp=0
-    for i in range(9):
-        for j in range(9):
+    i=0
+    while i<9:
+        j=0
+        while j<9:
             if ZC[i][j]!="_":
-                continue
+                j+=1
             else:
                 h = []
                 for k in range(1,10):
@@ -41,10 +42,10 @@ def loeserhelp(Z):  # Gibt den nächsten Eintrag an, den der Loeser einfügt.
                     ZC[i][j] = h[0]
                     S[j][i] = h[0]
                     KD[((i//3)+1,(j//3)+1)].append(h[0])
-                    stopp = 10
-                    break
-        if stopp==10:
-            break
+                    i=100
+                    j=100
+                else: j+=1
+        i+=1
     return(ZC)
 
 def loeser(Z): # Loest leichte Sudoku
@@ -238,7 +239,7 @@ if option=="1":
             if Z3 == loeserhelp(Z):
                 print("Dieses Sudoku ist zu schwer für mich.")
             else:
-                ausgabe(loeserhelp(Z))
+                ausgabe(Z)
 
 if option=="2":
     ausgabe(loeser(sudokuliste(eingabe)))
@@ -270,4 +271,4 @@ if option=="2":
             print("Das Sudoku konnte nicht vollstädig gelöst werden.")
             break
 
-# Veränderung
+

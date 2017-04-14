@@ -270,4 +270,5 @@ if option=="2":
         if "_" in Z[k]:
             print("Das Sudoku konnte nicht vollstädig gelöst werden.")
             break
-        
+
+# Veränderung

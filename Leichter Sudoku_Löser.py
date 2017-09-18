@@ -10,7 +10,7 @@ def spalten(Z): # Erstellt eine Liste der Spalten
     S = [[Z[j][i] for j in range(9)] for i in range(9)]
     return S
 
-def bloecke(Z): # Erstellt ein Dicionary der Blöcke
+def bloecke(Z): # Erstellt ein Dicionary der Blocke
     K11 = [Z[i][j] for i in range(0,3) for j in range(0,3)]
     K12 = [Z[i][j] for i in range(0,3) for j in range(3,6)]
     K13 = [Z[i][j] for i in range(0,3) for j in range(6,9)]
@@ -23,7 +23,7 @@ def bloecke(Z): # Erstellt ein Dicionary der Blöcke
     KD = {(1,1):K11, (1,2):K12, (1,3):K13, (2,1):K21, (2,2):K22, (2,3):K23, (3,1):K31, (3,2):K32, (3,3):K33}
     return (KD)
 
-def loeserhelp(Z):  # Gibt den nächsten Eintrag an, den der Loeser einfügt.
+def loeserhelp(Z):  # Gibt den nechsten Eintrag an, den der Loeser einfugt.
     KD = bloecke(Z)
     S = spalten(Z)
     ZC = Z.copy()
@@ -89,7 +89,7 @@ def sudokuliste(dateiname): # Erstellt aus einer Datei ein Sudoku als Liste
     sudoku.close()
     return(Z)
 
-def ausgabe(Z): # Gibt ein Sudoku in Listenformat als Sudoku aus, dass sich in eine Datei speichern lässt
+def ausgabe(Z): # Gibt ein Sudoku in Listenformat als Sudoku aus, dass sich in eine Datei speichern lasst
     print(Z[0][0],Z[0][1],Z[0][2],Z[0][3],Z[0][4],Z[0][5],Z[0][6],Z[0][7],Z[0][8],sep="|",end="\n")
     print(Z[1][0],Z[1][1],Z[1][2],Z[1][3],Z[1][4],Z[1][5],Z[1][6],Z[1][7],Z[1][8],sep="|",end="\n")
     print(Z[2][0],Z[2][1],Z[2][2],Z[2][3],Z[2][4],Z[2][5],Z[2][6],Z[2][7],Z[2][8],sep="|",end="\n")
@@ -112,7 +112,7 @@ while erf == 123:   # Existiert die eingebene Datei
         print("Die angegebene Datei existiert nicht.")
         erf = 123
 ausgabe(sudokuliste(eingabe))
-NA = sudokuliste(eingabe) #Das ursprüngliche Sudoku
+NA = sudokuliste(eingabe) #Das ursprungliche Sudoku
 Z = sudokuliste(eingabe)
 
 option = input("Tippe 1, um das Sudoku selber zu lösen oder 2, um das Sudoku lösen zu lassen.")
@@ -133,7 +133,7 @@ if option=="1":
                 test = 0
                 if "_" in Z[k]: # testet ob die k-te Zeile komplett ist.
                     test += 111
-                if test > 100:  # falls die k-te Zeile noch Lücken hat
+                if test > 100:  # falls die k-te Zeile noch Luecken hat
                     print("Welchen Eintrag willst du einfügen?")
                     z=0
                     while z == 0: # Testet ob die Eingabe für Zeile sinnvoll ist.
@@ -192,12 +192,12 @@ if option=="1":
                             print("Deine Eingabe muss eine ganze Zahl zwischen 1 und 9 sein.")
                             z = 0
                             wert = int(eingabe)
-                    if NA[zeile-1][spalte-1] !="_": # Damit das Sudoku nicht komplett veränderbar ist.
+                    if NA[zeile-1][spalte-1] !="_": # Damit das Sudoku nicht komplett veraenderbar ist.
                         print("Diesen Eintrag darfst du nicht verändern.")
                         k = 0
                     elif wert not in Z[zeile-1] and wert not in spalten(Z)[spalte-1] and wert not in bloecke(Z)[(((zeile-1)//3)+1,((spalte-1)//3)+1)]:
                         Z[zeile-1][spalte-1] = wert
-                        ausgabe(Z) # Falls die Eingabe sinnvoll ist und der Wert in Spalte,Zeile,Block noch nicht vorkommt, wird der Wert geändert.
+                        ausgabe(Z) # Falls die Eingabe sinnvoll ist und der Wert in Spalte,Zeile,Block noch nicht vorkommt, wird der Wert geaendert.
                         k = 100     #Zurueck zur Hilfefunktion
                         test = 111
                     else:
@@ -205,7 +205,7 @@ if option=="1":
                         k = 0
                 if test == 0:
                     k +=1
-            if test == 0: # falls das Sudoku vollständig ausgefüllt ist.
+            if test == 0: # falls das Sudoku vollstaendig ausgefuellt ist.
                 i=1
                 while i<=9: # testet, ob jede Zahl pro Zeile, Spalte und Block genau einmal vorkommt.
                     j=0
@@ -231,9 +231,9 @@ if option=="1":
                                 else: j +=1
                         else: j+=1
                     i+=1
-                if i==10: # falls das Sudoku vollständig und richtig gelöst wurde.
+                if i==10: # falls das Sudoku vollständig und richtig geloest wurde.
                     print("Gratulation! Du hast das Sudoku richtig gelöst.")
-                    helf = 234    #Die Hilfefunktion wird nicht mehr benötigt.
+                    helf = 234    #Die Hilfefunktion wird nicht mehr benoetigt.
         if hilfe=="Help":
             Z3 = deepcopy(Z)
             if Z3 == loeserhelp(Z):
@@ -266,7 +266,7 @@ if option=="2":
                     else: j +=1
             else: j+=1
         i+=1
-    for k in range(9):  #kontrolliert, ob das Sudoku vollständig gelöst wurde.
+    for k in range(9):  #kontrolliert, ob das Sudoku vollstaendig geloest wurde.
         if "_" in Z[k]:
             print("Das Sudoku konnte nicht vollstädig gelöst werden.")
             break

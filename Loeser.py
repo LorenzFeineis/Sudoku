@@ -113,6 +113,8 @@ ausgabe(sudokuliste(eingabe))
 NA = sudokuliste(eingabe) #Das ursprungliche Sudoku
 Z = sudokuliste(eingabe)
 
+
+
 option = input("Tippe 1, um das Sudoku selber zu lösen oder 2, um das Sudoku lösen zu lassen.")
 while True:
     if option=="1" or option=="2":

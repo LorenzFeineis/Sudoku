@@ -194,25 +194,31 @@ def control(Z):
             else: continue
     return True
 
-def BruteForce(Z):
-    while "_" in eintraege(Z):
-        superloeser(Z)
-        while "_" in eintraege(Z):
-            l = 2
-            while l < 10:
-                 for i in range(9):
-                     for j in range(9):
-                         if len(entrees(Z)[i][j]) = l:
-                             Z[i][j] = entrees[i][j][0]
-                             entrees[i][j]= []
-                             while control(Z) = True:
-                                 BruteForce(Z)
+def BruteForce(Z,L=[],c=0,K=entrees(Z)):
+    superloeser(Z)
+    if "_" in eintraege(Z):
+        if control(Z)=True
+        l = 2
+        while l < 10:
+            for i in range(9):
+                for j in range(9):
+                    if len(entrees(Z)[i][j]) = l:
+                        L.append([Z.copy(),i,j,entrees(Z)[i][j][c]])
+                        Z[i][j] = entrees(Z)[i][j][c]
+                        BruteForce(Z,L,c,K)
+                    else: l += 1
+        else:
+            if c < len(entres(L[-1][0]))-1:
+                c += 1
+                Z = L[-1][0]
+                L.pop(-1)
+                L.append([Z.copy(),i,j,entrees(Z)[i][j][c]])
+                Z[i][j] = entrees(Z)[i][j][c]
+                BruteForce(Z,L,c,K)
+            else:
+                Z = L[-2][0]
+                L.pop(-1)
+                L.pop(-1)
 
-                         else: l += 1
-
-
-
-
-
-
-print(entrees(sudokuliste("Sudoku.txt")))
+    else:
+        return Z

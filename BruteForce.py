@@ -100,15 +100,17 @@ def entrees(Z):
     KD = bloecke(Z)
     S = spalten(Z)
     ZC = Z.copy()
-    matrix = [[[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]],
-            [[],[],[],[],[],[],[],[],[]]]
+    matrix = [
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]],
+             [[],[],[],[],[],[],[],[],[]]
+             ]
     for i in range(9):
         for j in range(9):
             if ZC[i][j]!="_":
@@ -118,7 +120,7 @@ def entrees(Z):
                 for k in range(1,10):
                     if k not in ZC[i] and k not in S[j] and k not in KD[((i//3)+1,(j//3)+1)]:
                         h.append(k)
-                matrix[i][j].append(h)
+                matrix[i][j] = h
     return matrix
 
 
@@ -179,46 +181,64 @@ def eintraege(Z):
 
 def superloeser(Z): # this function is able to solve not only easy or normal Sudokus
     while "_" in eintraege(Z):
-        Z = loeserneu(Z)
-        Z = loeser(Z)
-        ausgabe(Z)
+        Y = loeserneu(Z)
+        Y = loeser(Y)
+        if Y!=Z:
+            Z = Y
+        else:
+            return Z
     return Z
 
 def control(Z):
+    E = entrees(Z)
     for i in range(9):
         for j in range(9):
-            if Z[i][j]="_":
-                if entrees(Z)[i][j]=[]:
+            if Z[i][j]=="_":
+                if E[i][j]==[]:
                     return False
                 else: continue
             else: continue
     return True
 
-def BruteForce(Z,L=[],c=0,K=entrees(Z)):
-    superloeser(Z)
+def BruteForce(Z,L=[]):
+    ausgabe(Z)
+    # Z is the Sudoku as a Liste
+    # L contains the previous Sudoku, the indice i and j of the last step
+    ### and the number which was entered in L[0][i][j]
     if "_" in eintraege(Z):
-        if control(Z)=True
-        l = 2
-        while l < 10:
-            for i in range(9):
-                for j in range(9):
-                    if len(entrees(Z)[i][j]) = l:
-                        L.append([Z.copy(),i,j,entrees(Z)[i][j][c]])
-                        Z[i][j] = entrees(Z)[i][j][c]
-                        BruteForce(Z,L,c,K)
-                    else: l += 1
+        if control(Z)==True:
+            l = 2
+            while l < 10:
+                for i in range(9):
+                    for j in range(9):
+                        if len(entrees(Z)[i][j]) == l:
+                            print(len(entrees(Z)[i][j]),l,i,j)
+                            L.append([Z.copy(),i,j,entrees(Z)[i][j],entrees(Z)[i][j][0]])
+                            Z[i][j] = entrees(Z)[i][j][0]
+                            BruteForce(Z,L)
+                        else:
+                            continue
+                l +=1
+         # Hier verwirft der Algorithmus die letzte Eintragung
+         # Er muss zur letzten Auswahl zurückkehren
+         # Dabei darf er keine Informationen verlieren
         else:
-            if c < len(entres(L[-1][0]))-1:
-                c += 1
-                Z = L[-1][0]
+            if len(L[-1][3]) > 1:
+                print("one")
+                value = L[-1][-1]
+                e = L[-1][3]
+                e.remove(value)
+                i = L[-1][1]
+                j = L[-1][2]
                 L.pop(-1)
-                L.append([Z.copy(),i,j,entrees(Z)[i][j][c]])
-                Z[i][j] = entrees(Z)[i][j][c]
-                BruteForce(Z,L,c,K)
-            else:
                 Z = L[-2][0]
-                L.pop(-1)
-                L.pop(-1)
-
+                Z[i][j] = e[0]
+                L.append([Z.copy(),i,j,e,e[0]])
+                BruteForce(Z,L)
+            else:
+                # Hier müss der Algorithmus noch einen Schritt weiter zurück
+                print("end")
     else:
         return Z
+print(entrees(sudokuliste("seventeen")))
+print(BruteForce(sudokuliste("seventeen")))

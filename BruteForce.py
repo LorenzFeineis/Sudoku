@@ -203,46 +203,44 @@ def control(Z):
     return True
 
 def BruteForce(Z,L=[]):
-    ausgabe(Z)
-    # Z is the Sudoku as a Liste
+    # Z is the Sudoku as a list
     # L contains the previous Sudoku, the indice i and j of the last step
     ### and the number which was entered in L[0][i][j]
     if "_" in eintraege(Z):
         if control(Z)==True:
             l = 1
             while l < 10:
-                for i in range(9):
-                    for j in range(9):
-                        if len(entrees(Z)[i][j]) == l:
-                            # print(entrees(Z)[i][j],i,j)
+                r=0
+                while r <9:
+                    s=0
+                    while s<9:
+                        if len(entrees(Z)[r][s]) == l:
                             New = copy.deepcopy(Z)
+                            i = copy.deepcopy(r)
+                            j = copy.deepcopy(s)
                             L.append([New,i,j,entrees(Z)[i][j],entrees(Z)[i][j][0]])
                             Z[i][j] = entrees(Z)[i][j][0]
-                            BruteForce(Z,L)
-                        else:
-                            continue
-                l +=1
+                            r=10
+                            s=10
+                            l=10
+                        else: s+=1
+                    r+=1
+                l+=1
          # Hier verwirft der Algorithmus die letzte Eintragung
          # Er muss zur letzten Auswahl zurückkehren
          # Dabei darf er keine Informationen verlieren
         else:
             while len(L[-1][3]) == 1:
                 L.pop(-1)
-            #ausgabe(Z)
-            #print("----")
-            #ausgabe(L[-1][0])
             i = L[-1][1]
             j = L[-1][2]
             Z = L[-1][0]
-            #print(i,j,L[-1][4])
-            #print(L[-1][3])
-            #ausgabe(Z)
             L[-1][3].remove(L[-1][4])
             Z[i][j] = "_"
             Z[i][j] = L[-1][3][0]
             L[-1][0] = Z
-            BruteForce(Z,L)
+        return BruteForce(Z,L)
     else:
         return Z
 
-BruteForce(sudokuliste("seventeen"))
+ausgabe(BruteForce(sudokuliste("seventeen")))

@@ -53,7 +53,8 @@ def bloecke(Z): # Erstellt ein Dicionary der Blöcke als Listen
     return (KD)
 
 
-def loeserhelp(Z):  # Gibt den nechsten Eintrag an, den der Loeser einfugt.
+def loeserhelp(Z):
+    '''Return the next value of the solver.'''
     KD = bloecke(Z)
     S = spalten(Z)
     ZC = Z.copy()
@@ -142,7 +143,7 @@ def zuordnung1(m,n,Z): #soll jeder Zahl von 1 bis 9 die möglichen Felder im Blo
         while j<9:
             Zeile = Z[3*(m-1)+(j//3)]
             Spalte = spalten(Z)[3*(n-1)+(j%3)]
-            if bloecke(Z)[m,n][j] is not "_":
+            if bloecke(Z)[m,n][j] != "_":
                 j+=1
             elif k in Zeile or k in Spalte:
                 j+=1
@@ -243,4 +244,4 @@ def BruteForce(Z,L=[]):
     else:
         return Z
 
-ausgabe(BruteForce(sudokuliste("seventeen")))
+ausgabe(BruteForce(sudokuliste("data/Leer")))

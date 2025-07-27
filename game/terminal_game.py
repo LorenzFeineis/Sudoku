@@ -4,10 +4,10 @@ A terminal game to play Sudoku.
 
 Load or solve a sudoku manually or use help from an implemented solver.
 """
-from Loeser import *
+from SimpleSolver import loeserhelp, loeser
+from common import sudokuliste, ausgabe, spalten, bloecke
 
-from pprint import *
-from copy import *
+from copy import deepcopy
 
 def main():
     '''Start game in the interactive shell.'''

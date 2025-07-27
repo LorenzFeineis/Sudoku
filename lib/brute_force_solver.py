@@ -1,59 +1,71 @@
 """
-UTILS.
-
 Define global variables for this project.
 """
+from typing import List, Tuple
+
+
 import random
 import numpy as np
 import sys
 sys.setrecursionlimit(10000)
 
+class Step():
+    def __init__(self,
+    sudoku: np.ndarray,
+    current_coordinate: Tuple[int,int],
+    current_value: int,
+    available_values: List[int]):
+        self.sudoku=sudoku
+        self.current_coordinate = current_coordinate
+        self.current_value=current_value
+        self.available_values = available_values
 
-def main():
-    """Test generation of a sudoku with brute force."""
-    empty_sudoku = np.array([[0 for i in range(9)] for i in range(9)])
-    print(brute_force_sudoku_solver(empty_sudoku))
 
 
-def brute_force_sudoku_solver(sudoku, steps=[]):
+def brute_force_sudoku_solver(sudoku:np.ndarray, steps: List[Step]=[]) ->np.ndarray:
     """Solve a sudoku using brute force."""
     # Search the first field with value 0
     # previous_steps = [(last_field, last_value)]
-    field = 0
+    next_coordinate = None
     for i in range(9):
-        if field:
+        if next_coordinate:
             break
         for j in range(9):
             if sudoku[i, j] == 0:
-                field = (i, j)
+                next_coordinate = (i, j)
                 break
 
     # If there is no field with value 0 return the solved sudoku
-    if not field:
+    if not next_coordinate:
         return sudoku
 
     if not consistency_check(sudoku):
         # inconsistency detected
         # Go back to the last branch and remember this inconsistency
 
-        while len(steps[-1][3]) == 1:
+        while len(steps[-1].available_values) == 1:
             steps.pop(-1)
-        sudoku, field, value, available_values = steps.pop(-1)
-        available_values.remove(value)
-        value = random.choice(available_values)
-        new_sudoku = sudoku.copy()
-        new_sudoku[field] = value
-        step = (sudoku, field, value, available_values)
-        steps.append(step)
+        last_step = steps.pop(-1)
+        new_available_values =  last_step.available_values
+        new_available_values.remove(last_step.current_value)
+        new_value = random.choice(new_available_values)
+        new_sudoku = last_step.sudoku.copy()
+        new_sudoku[last_step.current_coordinate] = new_value
+
+        next_step = Step(new_sudoku, last_step.current_coordinate, new_value, new_available_values)
+        steps.append(next_step)
+
+
     else:
         # Assign to field a value from available_values
         # and continue the recursion
-        available_values = possible_values_for_field(sudoku, field)
+        available_values = possible_values_for_field(sudoku, next_coordinate)
         new_sudoku = sudoku.copy()
         value = random.choice(available_values)
-        new_sudoku[field] = value
-        step = (sudoku, field, value, available_values)
+        new_sudoku[next_coordinate] = value
+        step = Step(sudoku, next_coordinate, value, available_values)
         steps.append(step)
+
     return brute_force_sudoku_solver(new_sudoku, steps)
 
 
@@ -101,5 +113,12 @@ def consistency_check(sudoku):
     return True
 
 
-if __name__ == '__main__':
-    main()
+
+def create_new_sudoku():
+
+    empty_sudoku = np.array([[0 for i in range(9)] for i in range(9)])
+    new_sudoku = brute_force_sudoku_solver(empty_sudoku)
+    print(new_sudoku)
+
+if __name__=='__main__':
+    create_new_sudoku()

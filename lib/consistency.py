@@ -8,31 +8,23 @@ import numpy as np
 
 def check_global_consistency(sudoku):
     """Check for any inconsistencies in the sudoku."""
-    if not check_rows(sudoku):
-        return False
-    if not check_rows(sudoku.T):
-        return False
-    if not check_blocks(sudoku):
-        return False
+    check_rows(sudoku)
+    check_rows(sudoku.T)
+    check_blocks(sudoku)
 
-    return True
 
 
 def check_rows(sudoku):
     """Check for any inconsistencies in the rows of the sudoku."""
     for i in range(9):
-        if not check_local_consistecy(sudoku[i, :]):
-            return False
-    return True
+        check_local_consistecy(sudoku[i, :])
 
 
 def check_blocks(sudoku):
     """Check for any inconsistenciesin the 3x3 blocks of the sudoku."""
     for i in (0, 3, 6):
         for j in (0, 3, 6):
-            if not check_local_consistecy(sudoku[i:i+3, j:j+3]):
-                return False
-    return True
+            check_local_consistecy(sudoku[i:i+3, j:j+3])
 
 
 def check_local_consistecy(block):
@@ -42,5 +34,4 @@ def check_local_consistecy(block):
 
     for i in range(1, 10):
         if block.count(i) > 1:
-            return False
-    return True
+            raise ValueError(f"Sudoku not consistent!")
